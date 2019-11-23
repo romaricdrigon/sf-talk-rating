@@ -18,10 +18,10 @@ class SpeakerType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
-                'label' => 'Username*'
+                'label' => 'Username'
             ])
             ->add('name', TextType::class, [
-                'label' => 'Full name',
+                'label' => 'Full name (required)',
                 'required' => false,
             ])
             ->add('email', EmailType::class, [
@@ -29,7 +29,7 @@ class SpeakerType extends AbstractType
                 'required' => false,
             ])
             ->add('uuid', TextType::class, [
-                'label' => 'UUID from SFConnect*'
+                'label' => 'UUID from SFConnect (required)'
             ])
         ;
     }
