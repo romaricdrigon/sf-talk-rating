@@ -1,0 +1,59 @@
+easy_admin:
+    site_name: 'SF Talk rating app'
+    user:
+        display_name: true
+        display_avatar: false
+
+    formats:
+        date:     'd/m/Y'
+        time:     'H:i'
+        datetime: 'd/m/Y H:i'
+
+    entities:
+        Event:
+            class: App\Entity\Event
+            label: "SF Events"
+            list:
+                fields: ['name', 'startDate', 'endDate', 'status']
+                sort: 'endDate'
+            form:
+                fields:
+                    - 'name'
+                    -
+                        property: 'status'
+                        type: 'Symfony\Component\Form\Extension\Core\Type\ChoiceType'
+                        type_options:
+                            choices:
+                                Draft: 'draft'
+                                Online: 'online'
+                    - { property: 'startDate', type_options: { widget: 'single_text' } }
+                    - { property: 'endDate', type_options: { widget: 'single_text' } }
+                    - { property: 'badgeUrl', type: 'Symfony\Component\Form\Extension\Core\Type\UrlType' }
+        Talk:
+            class: App\Entity\Talk
+            label: Talks
+            list:
+                fields:
+                    -
+                        property: 'event.name'
+                        label: 'Event'
+                    - 'title'
+                    -
+                        property: 'speaker.name'
+                        label: 'Speaker'
+            form:
+                fields:
+                    -
+                        property: 'event'
+                        type: 'Symfony\Bridge\Doctrine\Form\Type\EntityType'
+                        type_options:
+                            class: App\Entity\Event
+                            choice_label: 'name'
+                    - 'title'
+                    - 'description'
+                    -
+                        property: 'speaker'
+                        type: App\Form\SpeakerType
+                    -
+                        property: 'firstTimeSpeaker'
+                        type: 'Symfony\Component\Form\Extension\Core\Type\CheckboxType'
