@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Leave review for {{ event.name }}{% endblock %}
+
+{% block content %}
+    <h1>Leave review for {{ event.name }}</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.rating) }}
+
+        {#{{ form_row(form.selectedTags) }}#}
+
+        {{ form_row(form.comment) }}
+
+        <p>Optional - you can give us more details about your rating:</p>
+        {{ form_row(form.contentRating) }}
+        {{ form_row(form.locationRating) }}
+        {{ form_row(form.foodRating) }}
+        {{ form_row(form.socialEventRating) }}
+
+        <button type="submit" class="btn btn-primary">Leave review</button>
+    {{ form_end(form) }}
+
+    <p class="mt-5">
+        Your review will published with the name you entered in your SymfonyConnect account.<br />
+        This application will save your name, e-mail address and SymfonyConnect username / UUID.
+    </p>
+{% endblock %}

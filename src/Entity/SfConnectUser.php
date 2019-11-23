@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use SymfonyCorp\Connect\Api\Entity\User;
 
 /**
  * @ORM\Embeddable()
@@ -28,6 +29,17 @@ class SfConnectUser
      * @ORM\Column(type="string", nullable=true)
      */
     private $email;
+
+    public static function buildFromApiUser(User $user): self
+    {
+        $self = new self();
+        $self->uuid = $user->get('uuid');
+        $self->username = $user->get('username');
+        $self->name = $user->get('name');
+        $self->email = $user->get('email');
+
+        return $self;
+    }
 
     public function getUuid(): ?string
     {

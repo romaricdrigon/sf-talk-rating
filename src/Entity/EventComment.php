@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventCommentRepository")
@@ -22,11 +23,15 @@ class EventComment
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="comments")
+     *
+     * @Assert\NotNull()
      */
     private $event;
 
     /**
      * @ORM\Embedded(class="App\Entity\SfConnectUser", columnPrefix="author_")
+     *
+     * @Assert\NotNull()
      */
     private $author;
 
@@ -42,6 +47,8 @@ class EventComment
 
     /**
      * @ORM\Column(type="integer")
+     *
+     * @Assert\NotNull()
      */
     private $rating;
 
@@ -72,12 +79,16 @@ class EventComment
 
     /**
      * @ORM\Column(type="text")
+     *
+     * @Assert\NotBlank()
+     * @Assert\Length(min="20")
      */
     private $comment;
 
-    public function __construct()
+    public function __construct(Event $event, SfConnectUser $author)
     {
-        $this->author = new SfConnectUser();
+        $this->event = $event;
+        $this->author = $author;
         $this->postedAt = new \DateTimeImmutable();
         $this->status = self::STATUS_PENDING_MODERATION;
     }
@@ -92,13 +103,6 @@ class EventComment
         return $this->event;
     }
 
-    public function setEvent(?Event $event): self
-    {
-        $this->event = $event;
-
-        return $this;
-    }
-
     public function getAuthor(): SfConnectUser
     {
         return $this->author;
@@ -107,13 +111,6 @@ class EventComment
     public function getPostedAt(): ?\DateTimeImmutable
     {
         return $this->postedAt;
-    }
-
-    public function setPostedAt(\DateTimeImmutable $postedAt): self
-    {
-        $this->postedAt = $postedAt;
-
-        return $this;
     }
 
     public function getStatus(): ?string
