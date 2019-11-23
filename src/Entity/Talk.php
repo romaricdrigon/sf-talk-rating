@@ -45,9 +45,9 @@ class Talk
     private $tags = [];
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TalkComment", mappedBy="talk", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="TalkReview", mappedBy="talk", orphanRemoval=true)
      */
-    private $comments;
+    private $reviews;
 
     /**
      * @ORM\Column(type="boolean")
@@ -57,7 +57,7 @@ class Talk
     public function __construct()
     {
         $this->speaker = new SfConnectUser();
-        $this->comments = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
         $this->firstTimeSpeaker = false;
     }
 
@@ -120,30 +120,30 @@ class Talk
     }
 
     /**
-     * @return Collection|TalkComment[]
+     * @return Collection|TalkReview[]
      */
-    public function getComments(): Collection
+    public function getReviews(): Collection
     {
-        return $this->comments;
+        return $this->reviews;
     }
 
-    public function addComment(TalkComment $comment): self
+    public function addComment(TalkReview $review): self
     {
-        if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
-            $comment->setTalk($this);
+        if (!$this->reviews->contains($review)) {
+            $this->reviews[] = $review;
+            $review->setTalk($this);
         }
 
         return $this;
     }
 
-    public function removeComment(TalkComment $comment): self
+    public function removeReview(TalkReview $review): self
     {
-        if ($this->comments->contains($comment)) {
-            $this->comments->removeElement($comment);
+        if ($this->reviews->contains($review)) {
+            $this->reviews->removeElement($review);
             // set the owning side to null (unless already changed)
-            if ($comment->getTalk() === $this) {
-                $comment->setTalk(null);
+            if ($review->getTalk() === $this) {
+                $review->setTalk(null);
             }
         }
 

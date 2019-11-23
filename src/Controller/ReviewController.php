@@ -3,9 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Event;
-use App\Entity\EventComment;
+use App\Entity\EventReview;
 use App\Entity\SfConnectUser;
-use App\Form\EventCommentType;
+use App\Form\EventReviewType;
 use App\Service\ConnectEventsReader;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,19 +18,19 @@ use SymfonyCorp\Connect\Api\Entity\User;
 /**
  * @author Romaric Drigon <romaric.drigon@gmail.com>
  *
- * @Route("/comment")
+ * @Route("/review")
  */
-class CommentController extends AbstractController
+class ReviewController extends AbstractController
 {
     /**
-     * @Route("/", name="comment_index", methods={"GET"})
+     * @Route("/", name="review_index", methods={"GET"})
      */
     public function index(TokenStorageInterface $tokenStorage, ConnectEventsReader $reader): Response
     {
         /** @var User $user */
         $user = $tokenStorage->getToken()->getApiUser();
 
-        return $this->render('comment/index.html.twig', [
+        return $this->render('review/index.html.twig', [
             'events' => $reader->getOnlineUserAttended($user),
             'username' => $user->get('username'),
         ]);
@@ -44,19 +44,19 @@ class CommentController extends AbstractController
     {
         $user = $tokenStorage->getToken()->getApiUser();
 
-        $comment = new EventComment($event, SfConnectUser::buildFromApiUser($user));
-        $form = $this->createForm(EventCommentType::class, $comment);
+        $review = new EventReview($event, SfConnectUser::buildFromApiUser($user));
+        $form = $this->createForm(EventReviewType::class, $review);
 
         if ($form->handleRequest($request) && $form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->persist($comment);
+            $this->getDoctrine()->getManager()->persist($review);
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', 'Thank you for your review! It will be published soon.');
 
-            return $this->redirectToRoute('comment_index');
+            return $this->redirectToRoute('review_index');
         }
 
-        return $this->render('comment/event.html.twig', [
+        return $this->render('review/event.html.twig', [
             'event' => $event,
             'form' => $form->createView(),
         ]);

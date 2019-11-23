@@ -47,9 +47,9 @@ class Event
     private $talks;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\EventComment", mappedBy="event")
+     * @ORM\OneToMany(targetEntity="EventReview", mappedBy="event")
      */
-    private $comments;
+    private $reviews;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -59,7 +59,7 @@ class Event
     public function __construct()
     {
         $this->talks = new ArrayCollection();
-        $this->comments = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
         $this->status = self::STATUS_DRAFT;
     }
 
@@ -148,30 +148,30 @@ class Event
     }
 
     /**
-     * @return Collection|EventComment[]
+     * @return Collection|EventReview[]
      */
-    public function getComments(): Collection
+    public function getReviews(): Collection
     {
-        return $this->comments;
+        return $this->reviews;
     }
 
-    public function addComment(EventComment $comment): self
+    public function addReview(EventReview $review): self
     {
-        if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
-            $comment->setEvent($this);
+        if (!$this->reviews->contains($review)) {
+            $this->reviews[] = $review;
+            $review->setEvent($this);
         }
 
         return $this;
     }
 
-    public function removeComment(EventComment $comment): self
+    public function removeReview(EventReview $review): self
     {
-        if ($this->comments->contains($comment)) {
-            $this->comments->removeElement($comment);
+        if ($this->reviews->contains($review)) {
+            $this->reviews->removeElement($review);
             // set the owning side to null (unless already changed)
-            if ($comment->getEvent() === $this) {
-                $comment->setEvent(null);
+            if ($review->getEvent() === $this) {
+                $review->setEvent(null);
             }
         }
 

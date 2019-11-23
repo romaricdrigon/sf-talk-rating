@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\TalkCommentRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\TalkReviewRepository")
  */
-class TalkComment
+class TalkReview
 {
     const STATUS_PENDING_MODERATION = 'pending_moderation';
     const STATUS_ONLINE = 'online';
@@ -21,7 +21,7 @@ class TalkComment
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Talk", inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Talk", inversedBy="reviews")
      * @ORM\JoinColumn(nullable=false)
      */
     private $talk;

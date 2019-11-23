@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\EventCommentRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\EventReviewRepository")
  */
-class EventComment
+class EventReview
 {
     const STATUS_PENDING_MODERATION = 'pending_moderation';
     const STATUS_ONLINE = 'online';
@@ -22,7 +22,7 @@ class EventComment
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="review")
      *
      * @Assert\NotNull()
      */

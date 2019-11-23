@@ -2,18 +2,18 @@
 
 namespace App\Form;
 
-use App\Entity\EventComment;
+use App\Entity\EventReview;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Form for EventComment.
+ * Form for EventReview.
  *
  * @author Romaric Drigon <romaric.drigon@gmail.com>
  */
-class EventCommentType extends AbstractType
+class EventReviewType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -52,6 +52,6 @@ class EventCommentType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefault('data_class', EventComment::class);
+        $resolver->setDefault('data_class', EventReview::class);
     }
 }
