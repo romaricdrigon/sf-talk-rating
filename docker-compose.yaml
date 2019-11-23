@@ -1,0 +1,16 @@
+version: '2'
+
+volumes:
+    pgsqldata:
+
+services:
+    pgsql:
+        image: postgres:12
+        volumes:
+            - pgsqldata:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_USER=ratingapp
+            - POSTGRES_PASSWORD=ratingapp
+            - POSTGRES_DB=ratingapp
+        ports:
+            - "5432:5432"
