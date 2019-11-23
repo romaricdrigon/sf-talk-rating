@@ -10,5 +10,11 @@
 
     <div class="example-wrapper">
         <h1>Hello {{ username }}!</h1>
+
+        <h2>Events you attended:</h2>
+
+        {% for event in events %}
+            <h3>{{ event.name }}</h3>
+        {% endfor %}
     </div>
 {% endblock %}

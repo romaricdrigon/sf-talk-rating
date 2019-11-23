@@ -19,32 +19,21 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
-    // /**
-    //  * @return Event[] Returns an array of Event objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param array $badgeUrls
+     * @return Event[]
+     */
+    public function findOnlineByBadgeUrl(array $badgeUrls): array
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('e')
+            ->where('e.status = :online')
+            ->andWhere('e.badgeUrl IN (:urls)')
+            ->setParameters([
+                'online' => Event::STATUS_ONLINE,
+                'urls' => $badgeUrls,
+            ])
             ->getQuery()
             ->getResult()
         ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Event
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
