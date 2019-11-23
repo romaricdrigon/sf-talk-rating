@@ -1,0 +1,13 @@
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+
+{% block content_title 'Scrape Event schedule' %}
+
+{% block main %}
+    {{ form_start(form) }}
+        <p>Are you sure you want to scrape this Event schedule? This will remove all previous Talks associated with this Event.</p>
+
+        {{ form_row(form.url) }}
+
+        <button type="submit" class="btn btn-primary mt-3">Scrape!</button>
+    {{ form_end(form) }}
+{% endblock %}

@@ -16,6 +16,8 @@ easy_admin:
             list:
                 fields: ['name', 'startDate', 'endDate', 'status']
                 sort: 'endDate'
+                actions:
+                    - { name: 'admin_event_scrape_init', label: 'Scrape schedule', type: 'route' }
             form:
                 fields:
                     - 'name'
