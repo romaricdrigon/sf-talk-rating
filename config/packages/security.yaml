@@ -16,6 +16,9 @@ security:
                 failure_path: home # TODO
                 remember_me: false
                 provider: symfony_connect
+            logout:
+                path: logout
+                target: home
             anonymous: true
 
     access_control:
