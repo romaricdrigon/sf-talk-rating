@@ -229,6 +229,10 @@ class Event
      */
     public function canBeReviewed(string $userUuid): bool
     {
+        if (!$this->isOnline()) {
+            return false;
+        }
+
         if (new \DateTimeImmutable('now') > $this->getReviewDeadline()) {
             return false;
         }

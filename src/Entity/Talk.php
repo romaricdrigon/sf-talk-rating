@@ -177,6 +177,10 @@ class Talk
      */
     public function canBeReviewed(string $userUuid): bool
     {
+        if (!$this->event->isOnline()) {
+            return false;
+        }
+
         if (new \DateTimeImmutable('now') > $this->event->getReviewDeadline()) {
             return false;
         }

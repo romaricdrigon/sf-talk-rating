@@ -32,6 +32,9 @@ class ReviewController extends AbstractController
         if (!$event->isOnline()) {
             throw $this->createNotFoundException();
         }
+        if (!$event->canBeReviewed($tokenStorage->getToken()->getApiUser()->get('uuid'))) {
+            return $this->redirectToRoute('event_details', ['id' => $event->getId()]);
+        }
 
         $user = $tokenStorage->getToken()->getApiUser();
 
@@ -61,6 +64,9 @@ class ReviewController extends AbstractController
     {
         if (!$talk->getEvent()->isOnline()) {
             throw $this->createNotFoundException();
+        }
+        if (!$talk->canBeReviewed($tokenStorage->getToken()->getApiUser()->get('uuid'))) {
+            return $this->redirectToRoute('talk_details', ['id' => $talk->getId()]);
         }
 
         $user = $tokenStorage->getToken()->getApiUser();
