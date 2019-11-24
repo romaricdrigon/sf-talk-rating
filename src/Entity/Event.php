@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -193,5 +194,16 @@ class Event
     public function isOnline(): bool
     {
         return self::STATUS_ONLINE === $this->status;
+    }
+
+    /**
+     * @return Collection|EventReview[]
+     */
+    public function getOnlineReviews(): Collection
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('status', EventReview::STATUS_ONLINE));
+
+        return $this->reviews->matching($criteria);
     }
 }

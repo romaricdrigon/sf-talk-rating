@@ -9,14 +9,12 @@ use App\Entity\Talk;
 use App\Entity\TalkReview;
 use App\Form\EventReviewType;
 use App\Form\TalkReviewType;
-use App\Service\ConnectEventsReader;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use SymfonyCorp\Connect\Api\Entity\User;
 
 /**
  * @author Romaric Drigon <romaric.drigon@gmail.com>
@@ -25,20 +23,6 @@ use SymfonyCorp\Connect\Api\Entity\User;
  */
 class ReviewController extends AbstractController
 {
-    /**
-     * @Route("/", name="review_index", methods={"GET"})
-     */
-    public function index(TokenStorageInterface $tokenStorage, ConnectEventsReader $reader): Response
-    {
-        /** @var User $user */
-        $user = $tokenStorage->getToken()->getApiUser();
-
-        return $this->render('review/index.html.twig', [
-            'events' => $reader->getOnlineUserAttended($user),
-            'username' => $user->get('username'),
-        ]);
-    }
-
     /**
      * @Route("/{id}/event", name="review_event", methods={"GET", "POST"})
      * @ParamConverter("event")

@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ event.name }}{% endblock %}
+
+{% block content %}
+    <h2 class="mb-5">{{ event.name }}</h2>
+
+    <h3>Talks</h3>
+
+    {% for talk in event.talks %}
+        <h4>{{ talk.title }} - <cite>{{ talk.speaker.name }}</cite></h4>
+
+        <blockquote>
+            <p class="mb-0">{{ talk.description|slice(0, 200) ~ '…'}}</p>
+        </blockquote>
+    {% endfor %}
+
+    <h3>Reviews of the event</h3>
+
+    {% for review in event.onlineReviews %}
+        <blockquote class="blockquote">
+            <p class="mb-0">{{ review.comment }}</p>
+
+            <footer class="blockquote-footer">
+                <cite>{{ review.author.name }}</cite>
+            </footer>
+        </blockquote>
+    {% else %}
+        <p>No reviews were published for this event yet.</p>
+        {#TODO: button!#}
+    {% endfor %}
+{% endblock %}

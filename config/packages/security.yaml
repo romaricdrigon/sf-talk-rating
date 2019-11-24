@@ -33,4 +33,5 @@ security:
     access_control:
         - { path: ^/admin, roles: [ROLE_ADMIN] }
         - { path: ^/review, roles: [ROLE_CONNECT_USER] }
+        - { path: ^/event, roles: [ROLE_CONNECT_USER] }
         - { path: ^/, roles: [] } # Home - all can see

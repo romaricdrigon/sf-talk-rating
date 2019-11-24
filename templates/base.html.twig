@@ -3,18 +3,36 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>{% block title %}SF Talk Rating{% endblock %}</title>
+        <title>{% block title %}SF Talk Rating app{% endblock %}</title>
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
     <body>
         <div class="container">
+            {% block header %}
+                <div class="row">
+                    <div class="col mt-3">
+                        <h1>SF Talk Rating app</h1>
+
+                        <hr />
+                    </div>
+                </div>
+            {% endblock %}
+
             <div class="row">
                 <div class="col">
                     {% block content %}{% endblock %}
                 </div>
             </div>
+
+            {% block footer %}
+                <div class="row">
+                    <div class="col my-5">
+                        <p class="text-muted">Made with <3 by <a href="https://twitter.com/romaricdrigon">@romaricdrigon</a> - <a href="https://github.com/romaricdrigon/sf-talk-rating">Github</a></p>
+                    </div>
+                </div>
+            {% endblock %}
         </div>
 
         {% block javascripts %}

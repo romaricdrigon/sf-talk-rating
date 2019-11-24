@@ -1,11 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello world!{% endblock %}
+{% block title %}SF Talk Rating app{% endblock %}
 
 {% block content %}
-    <h1>Rating app</h1>
-
-    <p>Welcome to the rating app!</p>
+    <h2 class="mb-5">Welcome to the rating app!</h2>
 
     {% if not app.user %}
         <p>
@@ -17,11 +15,19 @@
             <a href="{{ path('symfony_connect_login') }}" class="btn btn-primary">Connect with Symfony Connect</a>
         </p>
     {% else %}
-        <p>
-            <a href="{{ path('review_index') }}" class="btn btn-primary">Go to events list</a>
-        </p>
+        <h2>Events you attended:</h2>
 
-        <p>
+        {% for event in events %}
+            <h3><a href="{{ path('event_details', {id: event.id}) }}">{{ event.name }}</a></h3>
+        {% endfor %}
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <p>
+                <a href="{{ path('easyadmin') }}" class="btn btn-warning">Administration</a>
+            </p>
+        {% endif %}
+
+        <p class="mt-5">
             <a href="{{ path('logout') }}">Logout</a>
         </p>
     {% endif %}
