@@ -42,9 +42,9 @@ class ReviewController extends AbstractController
             $this->getDoctrine()->getManager()->persist($review);
             $this->getDoctrine()->getManager()->flush();
 
-            $this->addFlash('success', 'Thank you for your review! It will be published soon.');
+            $this->addFlash('success', 'Thank you for your comment! It will be published soon.');
 
-            return $this->redirectToRoute('review_index');
+            return $this->redirectToRoute('event_details', ['id' => $event->getId()]);
         }
 
         return $this->render('review/event.html.twig', [
@@ -72,9 +72,9 @@ class ReviewController extends AbstractController
             $this->getDoctrine()->getManager()->persist($talkReview);
             $this->getDoctrine()->getManager()->flush();
 
-            $this->addFlash('success', 'Thank you for your review! It will be published soon.');
+            $this->addFlash('success', 'Thank you for your comment! It will be published soon.');
 
-            return $this->redirectToRoute('review_index');
+            return $this->redirectToRoute('talk_details', ['id' => $talk->getId()]);
         }
 
         return $this->render('review/talk.html.twig', [

@@ -65,7 +65,7 @@ easy_admin:
             class: App\Entity\EventReview
             label: "Event reviews"
             list:
-                actions: ['show', '-add', '-search', '-delete']
+                actions: ['show', '-new', '-search', '-delete']
                 fields:
                     -   property: 'event.name'
                         label: 'Event'
@@ -126,9 +126,9 @@ easy_admin:
             class: App\Entity\TalkReview
             label: "Talk reviews"
             list:
-                actions: ['show', '-add', '-search', '-delete']
+                actions: ['show', '-new', '-search', '-delete']
                 fields:
-                    -   property: 'talk.name'
+                    -   property: 'talk.title'
                         label: 'Talk'
                     -   property: 'author.name'
                         label: 'Author'

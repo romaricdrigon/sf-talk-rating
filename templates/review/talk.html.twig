@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Leave review for "{{ talk.title }}"{% endblock %}
+{% block title %}Comment on "{{ talk.title }}"{% endblock %}
 
 {% block content %}
-    <h1>Leave review for "{{ talk.title }}"</h1>
+    <h1>Leave comment over "{{ talk.title }}"</h1>
 
     <blockquote class="blockquote">
         <p class="mb-0">{{ talk.description }}</p>
@@ -29,12 +29,12 @@
         {{ form_row(form.deliveryRating) }}
         {{ form_row(form.relevanceRating) }}
 
-        <button type="submit" class="btn btn-primary">Leave review</button>
-        <a href="{{ path('review_index') }}" class="btn btn-outline-primary">Cancel</a>
+        <button type="submit" class="btn btn-primary">Leave comment</button>
+        <a href="{{ path('talk_details', {id: talk.id}) }}" class="btn btn-outline-primary">Cancel</a>
     {{ form_end(form) }}
 
     <p class="mt-5">
-        Your review will published with the name you entered in your SymfonyConnect account.<br />
-        This application will save your name, e-mail address and SymfonyConnect username / UUID.
+        Your comment will published with the name you entered in your SymfonyConnect account.<br />
+        This application will save your name, e-mail address, username and SymfonyConnect UUID.
     </p>
 {% endblock %}

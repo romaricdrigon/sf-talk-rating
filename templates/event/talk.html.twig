@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ talk.title }}{% endblock %}
+
+{% block content %}
+    <h2 class="mb-5">
+        {{ talk.title }}
+        <small class="text-muted"> @ <a href="{{ path('event_details', {id: talk.event.id}) }}">{{ talk.event.name }}</a></small>
+    </h2>
+
+    <blockquote class="blockquote">
+        <p class="mb-0">{{ talk.description }}</p>
+
+        <footer class="blockquote-footer">
+            <cite>{{ talk.speaker.name }}</cite>
+
+            {% if talk.firstTimeSpeaker %}
+                <span class="badge badge-secondary">First time speaker</span>
+            {% endif %}
+        </footer>
+    </blockquote>
+
+    <hr class="my-4" />
+
+    <h3>Comments</h3>
+
+    {% for review in talk.onlineReviews %}
+        <blockquote>
+            <p class="mb-0">{{ review.comment }}</p>
+
+            <footer class="blockquote-footer">
+                <cite>{{ review.author.name }}</cite>
+            </footer>
+        </blockquote>
+    {% else %}
+        <p>No comments were published for this event yet.</p>
+    {% endfor %}
+
+    {% if talk.canBeReviewed(app.token.apiUser.get('uuid')) %}
+        <a href="{{ path('review_talk', {id: talk.id}) }}" class="btn btn-primary">Leave comment over talk</a>
+    {% endif %}
+{% endblock %}

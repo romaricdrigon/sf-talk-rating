@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -143,5 +144,39 @@ class Talk
         $this->firstTimeSpeaker = $firstTimeSpeaker;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|TalkReview[]
+     */
+    public function getOnlineReviews(): Collection
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('status', TalkReview::STATUS_ONLINE));
+
+        return $this->reviews->matching($criteria);
+    }
+
+    /**
+     * Can given User review event?
+     * Event should have occurred less than REVIEW_PERIOD ago,
+     * and user should not have already reviewed talk,
+     * even if his review was not published or declined.
+     *
+     * @param string $userUuid SymfonyConnect User UUID
+     * @return bool
+     */
+    public function canBeReviewed(string $userUuid): bool
+    {
+        if (new \DateTimeImmutable('now') > $this->event->getReviewDeadline()) {
+            return false;
+        }
+
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('author.uuid', $userUuid));
+
+        $myReviews = $this->reviews->matching($criteria);
+
+        return 0 === count($myReviews);
     }
 }

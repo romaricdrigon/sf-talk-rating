@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Leave review for {{ event.name }}{% endblock %}
+{% block title %}Comment on {{ event.name }}{% endblock %}
 
 {% block content %}
-    <h1>Leave review for {{ event.name }}</h1>
+    <h1>Leave comment over {{ event.name }}</h1>
 
     {{ form_start(form) }}
         {{ form_row(form.rating) }}
@@ -18,12 +18,12 @@
         {{ form_row(form.foodRating) }}
         {{ form_row(form.socialEventRating) }}
 
-        <button type="submit" class="btn btn-primary">Leave review</button>
-        <a href="{{ path('review_index') }}" class="btn btn-outline-primary">Cancel</a>
+        <button type="submit" class="btn btn-primary">Leave comment</button>
+        <a href="{{ path('event_details', {id: event.id}) }}" class="btn btn-outline-primary">Cancel</a>
     {{ form_end(form) }}
 
     <p class="mt-5">
-        Your review will published with the name you entered in your SymfonyConnect account.<br />
-        This application will save your name, e-mail address and SymfonyConnect username / UUID.
+        Your comment will published with the name you entered in your SymfonyConnect account.<br />
+        This application will save your name, e-mail address, username and SymfonyConnect UUID.
     </p>
 {% endblock %}

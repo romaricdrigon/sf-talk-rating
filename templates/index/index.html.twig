@@ -18,11 +18,13 @@
         <h2>Events you attended:</h2>
 
         {% for event in events %}
-            <h3><a href="{{ path('event_details', {id: event.id}) }}">{{ event.name }}</a></h3>
+            <h3 class="mb-2">{{ event.name }}</h3>
+
+            <p><a href="{{ path('event_details', {id: event.id}) }}">View details</a></p>
         {% endfor %}
 
         {% if is_granted('ROLE_ADMIN') %}
-            <p>
+            <p class="mt-5">
                 <a href="{{ path('easyadmin') }}" class="btn btn-warning">Administration</a>
             </p>
         {% endif %}

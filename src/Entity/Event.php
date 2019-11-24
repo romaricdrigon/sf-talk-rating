@@ -15,6 +15,8 @@ class Event
     const STATUS_DRAFT = 'draft';
     const STATUS_ONLINE = 'online';
 
+    private const REVIEW_PERIOD = '30 days';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -205,5 +207,33 @@ class Event
             ->where(Criteria::expr()->eq('status', EventReview::STATUS_ONLINE));
 
         return $this->reviews->matching($criteria);
+    }
+
+    /**
+     * Can given User review event?
+     * Event should have occurred less than REVIEW_PERIOD ago,
+     * and user should not have already reviewed event,
+     * even if his review was not published or declined.
+     *
+     * @param string $userUuid SymfonyConnect User UUID
+     * @return bool
+     */
+    public function canBeReviewed(string $userUuid): bool
+    {
+        if (new \DateTimeImmutable('now') > $this->getReviewDeadline()) {
+            return false;
+        }
+
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('author.uuid', $userUuid));
+
+        $myReviews = $this->reviews->matching($criteria);
+
+        return 0 === count($myReviews);
+    }
+
+    public function getReviewDeadline(): \DateTimeImmutable
+    {
+        return $this->endDate->modify('+'.self::REVIEW_PERIOD);
     }
 }

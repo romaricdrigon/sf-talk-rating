@@ -10,15 +10,21 @@
     {% for talk in event.talks %}
         <h4>{{ talk.title }} - <cite>{{ talk.speaker.name }}</cite></h4>
 
-        <blockquote>
-            <p class="mb-0">{{ talk.description|slice(0, 200) ~ '…'}}</p>
+        <blockquote class="mb-1">
+            <p class="mb-0">
+                {{ talk.description|length > 200 ? (talk.description|slice(0, 200) ~ '…') : talk.description }}
+            </p>
         </blockquote>
+
+        <p><a href="{{ path('talk_details', {id: talk.id}) }}">View details</a></p>
     {% endfor %}
 
-    <h3>Reviews of the event</h3>
+    <hr class="my-4" />
+
+    <h3>Comments on the event</h3>
 
     {% for review in event.onlineReviews %}
-        <blockquote class="blockquote">
+        <blockquote>
             <p class="mb-0">{{ review.comment }}</p>
 
             <footer class="blockquote-footer">
@@ -26,7 +32,10 @@
             </footer>
         </blockquote>
     {% else %}
-        <p>No reviews were published for this event yet.</p>
-        {#TODO: button!#}
+        <p>No comments were published for this event yet.</p>
     {% endfor %}
+
+    {% if event.canBeReviewed(app.token.apiUser.get('uuid')) %}
+        <a href="{{ path('review_event', {id: event.id}) }}" class="btn btn-primary">Leave comment over event</a>
+    {% endif %}
 {% endblock %}

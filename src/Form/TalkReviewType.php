@@ -34,7 +34,7 @@ class TalkReviewType extends AbstractType
                 'attr' => [
                     'minlength' => 20,
                 ],
-                'help' => 'Minimum 20 characters. Your review should respect <a href="https://symfony.com/doc/master/contributing/code_of_conduct/code_of_conduct.html">Symfony Code of Conduct</a> or it may be moderated.',
+                'help' => 'Minimum 20 characters. Your comment should respect <a href="https://symfony.com/doc/master/contributing/code_of_conduct/code_of_conduct.html">Symfony Code of Conduct</a> or it may be moderated.',
                 'help_html' => true,
             ])
             ->add('contentRating', RatingType::class, [
