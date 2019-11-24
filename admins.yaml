@@ -1,0 +1,9 @@
+# File which will be merged with security.yaml
+security:
+    providers:
+        symfony_connect:
+            connect_memory:
+                users:
+                    37cd387c-d19e-4472-876a-8082ada2ca21: ROLE_ADMIN # Romaric Drigon
+                    71e2f393-158c-4a1c-92c4-2234548e09f5: ROLE_ADMIN # Emilie Lorenzo
+                    072fe4aa-78a1-45c7-b802-34eb632562ef: ROLE_ADMIN # Nicolas Grekas
