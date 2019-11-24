@@ -122,3 +122,63 @@ easy_admin:
                                     Pending moderation: 'pending_moderation'
                                     Online: 'online'
                                     Refused: 'refused'
+
+        TalkReview:
+            class: App\Entity\TalkReview
+            label: "Talk reviews"
+            list:
+                actions: ['show', '-add', '-search', '-delete']
+                fields:
+                    -   property: 'talk.name'
+                        label: 'Talk'
+                    -   property: 'author.name'
+                        label: 'Author'
+                    -
+                        property: 'rating'
+                        label: 'Rating (/5)'
+                    - 'postedAt'
+                    - 'status'
+                sort: 'postedAt'
+            show:
+                actions: ['-delete']
+                fields:
+                    -
+                        property: 'talk'
+                        label: 'About talk'
+                    - 'status'
+                    -
+                        property: 'rating'
+                        label: 'Rating (/5)'
+                    - 'comment'
+                    -
+                        property: 'prettyHighlights' # Virtual
+                        label: 'Highlights'
+                    -   property: 'contentRating'
+                        label: 'Content rating (/5)'
+                    -   property: 'deliveryRating'
+                        label: 'Delivery rating (/5)'
+                    -   property: 'relevanceRating'
+                        label: 'Relevance rating (/5)'
+                    - 'postedAt'
+                    -
+                        property: 'author.name'
+                        label: 'Author public name'
+                    -   property: 'author.username'
+                        label: 'Author username'
+                    -
+                        property: 'author.uuid'
+                        label: 'Author UUID'
+                    -
+                        property: 'author.email'
+                        label: 'Author email'
+
+                form:
+                    fields:
+                        -
+                            property: 'status'
+                            type: 'Symfony\Component\Form\Extension\Core\Type\ChoiceType'
+                            type_options:
+                                choices:
+                                    Pending moderation: 'pending_moderation'
+                                    Online: 'online'
+                                    Refused: 'refused'

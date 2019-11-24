@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Model\TalkTags;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -71,9 +72,10 @@ class TalkReview
      */
     private $relevanceRating;
 
-    public function __construct()
+    public function __construct(Talk $talk, SfConnectUser $author)
     {
-        $this->author = new SfConnectUser();
+        $this->talk = $talk;
+        $this->author = $author;
         $this->postedAt = new \DateTimeImmutable();
         $this->status = self::STATUS_PENDING_MODERATION;
     }
@@ -86,13 +88,6 @@ class TalkReview
     public function getTalk(): ?Talk
     {
         return $this->talk;
-    }
-
-    public function setTalk(?Talk $talk): self
-    {
-        $this->talk = $talk;
-
-        return $this;
     }
 
     public function getAuthor(): SfConnectUser
@@ -194,5 +189,18 @@ class TalkReview
         $this->relevanceRating = $relevanceRating;
 
         return $this;
+    }
+
+    public function getPrettyHighlights(): string
+    {
+        $labels = [];
+
+        foreach ($this->selectedTags as $tag) {
+            if (isset(TalkTags::getAllWithLabel()[$tag])) {
+                $labels[] = TalkTags::getAllWithLabel()[$tag];
+            }
+        }
+
+        return $labels ? implode(', ', $labels) : 'None';
     }
 }

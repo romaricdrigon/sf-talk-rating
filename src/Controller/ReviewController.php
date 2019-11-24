@@ -5,7 +5,10 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Entity\EventReview;
 use App\Entity\SfConnectUser;
+use App\Entity\Talk;
+use App\Entity\TalkReview;
 use App\Form\EventReviewType;
+use App\Form\TalkReviewType;
 use App\Service\ConnectEventsReader;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -62,6 +65,36 @@ class ReviewController extends AbstractController
 
         return $this->render('review/event.html.twig', [
             'event' => $event,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/talk", name="review_talk", methods={"GET", "POST"})
+     * @ParamConverter("talk")
+     */
+    public function reviewTalk(Talk $talk, TokenStorageInterface $tokenStorage, Request $request): Response
+    {
+        if (!$talk->getEvent()->isOnline()) {
+            throw $this->createNotFoundException();
+        }
+
+        $user = $tokenStorage->getToken()->getApiUser();
+
+        $talkReview = new TalkReview($talk, SfConnectUser::buildFromApiUser($user));
+        $form = $this->createForm(TalkReviewType::class, $talkReview);
+
+        if ($form->handleRequest($request) && $form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->persist($talkReview);
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'Thank you for your review! It will be published soon.');
+
+            return $this->redirectToRoute('review_index');
+        }
+
+        return $this->render('review/talk.html.twig', [
+            'talk' => $talk,
             'form' => $form->createView(),
         ]);
     }

@@ -1,9 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Leave review for {{ event.name }}{% endblock %}
+{% block title %}Leave review for "{{ talk.title }}"{% endblock %}
 
 {% block content %}
-    <h1>Leave review for {{ event.name }}</h1>
+    <h1>Leave review for "{{ talk.title }}"</h1>
+
+    <blockquote class="blockquote">
+        <p class="mb-0">{{ talk.description }}</p>
+
+        <footer class="blockquote-footer">
+            <cite>{{ talk.speaker.name }}</cite>
+
+            {% if talk.firstTimeSpeaker %}
+                <span class="badge badge-secondary">First time speaker</span>
+            {% endif %}
+        </footer>
+    </blockquote>
 
     {{ form_start(form) }}
         {{ form_row(form.rating) }}
@@ -14,9 +26,8 @@
 
         <p>Optional - you can give us more details about your rating:</p>
         {{ form_row(form.contentRating) }}
-        {{ form_row(form.locationRating) }}
-        {{ form_row(form.foodRating) }}
-        {{ form_row(form.socialEventRating) }}
+        {{ form_row(form.deliveryRating) }}
+        {{ form_row(form.relevanceRating) }}
 
         <button type="submit" class="btn btn-primary">Leave review</button>
         <a href="{{ path('review_index') }}" class="btn btn-outline-primary">Cancel</a>
