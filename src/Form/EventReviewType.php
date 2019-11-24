@@ -3,7 +3,9 @@
 namespace App\Form;
 
 use App\Entity\EventReview;
+use App\Model\EventTags;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,7 +23,13 @@ class EventReviewType extends AbstractType
             ->add('rating', RatingType::class, [
                 'required' => true,
             ])
-            //->add('selectedTags')
+            ->add('selectedTags', ChoiceType::class, [
+                'choices' => EventTags::getChoices(),
+                'expanded' => true,
+                'label' => 'Highlights',
+                'multiple' => true,
+                'required' => false,
+             ])
             ->add('comment', TextareaType::class, [
                 'attr' => [
                     'minlength' => 20,

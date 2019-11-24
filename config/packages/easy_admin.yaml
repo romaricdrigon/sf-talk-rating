@@ -88,6 +88,9 @@ easy_admin:
                         property: 'rating'
                         label: 'Rating (/5)'
                     - 'comment'
+                    -
+                        property: 'prettyHighlights' # Virtual
+                        label: 'Highlights'
                     -   property: 'contentRating'
                         label: 'Content rating (/5)'
                     -   property: 'locationRating'

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Model\EventTags;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -207,5 +208,18 @@ class EventReview
         $this->comment = $comment;
 
         return $this;
+    }
+
+    public function getPrettyHighlights(): string
+    {
+        $labels = [];
+
+        foreach ($this->selectedTags as $tag) {
+            if (isset(EventTags::getAllWithLabel()[$tag])) {
+                $labels[] = EventTags::getAllWithLabel()[$tag];
+            }
+        }
+
+        return $labels ? implode(', ', $labels) : 'None';
     }
 }
