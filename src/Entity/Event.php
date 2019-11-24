@@ -59,6 +59,11 @@ class Event
      */
     private $status;
 
+    /**
+     * @var Collection|null cache so Doctrine do not re-send queries to DB
+     */
+    private $cachedOnlineReviews;
+
     public function __construct()
     {
         $this->talks = new ArrayCollection();
@@ -203,10 +208,14 @@ class Event
      */
     public function getOnlineReviews(): Collection
     {
+        if ($this->cachedOnlineReviews) {
+            return $this->cachedOnlineReviews;
+        }
+
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('status', EventReview::STATUS_ONLINE));
 
-        return $this->reviews->matching($criteria);
+        return $this->cachedOnlineReviews = $this->reviews->matching($criteria);
     }
 
     /**
@@ -235,5 +244,20 @@ class Event
     public function getReviewDeadline(): \DateTimeImmutable
     {
         return $this->endDate->modify('+'.self::REVIEW_PERIOD);
+    }
+
+    public function getAverageRating(): ?int
+    {
+        $onlineReviews = $this->getOnlineReviews();
+
+        if (!count($onlineReviews)) {
+            return null;
+        }
+
+        $grades = $onlineReviews->map(function (EventReview $review) {
+            return $review->getRating();
+        })->toArray();
+
+        return array_sum($grades) / count($grades);
     }
 }

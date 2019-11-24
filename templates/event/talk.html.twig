@@ -1,12 +1,20 @@
 {% extends 'base.html.twig' %}
 
+{% import '_macro.html.twig' as macro %}
+
 {% block title %}{{ talk.title }}{% endblock %}
 
 {% block content %}
-    <h2 class="mb-5">
+    <h2>
         {{ talk.title }}
         <small class="text-muted"> @ <a href="{{ path('event_details', {id: talk.event.id}) }}">{{ talk.event.name }}</a></small>
     </h2>
+
+    {% if talk.averageRating %}
+        <p>{{ macro.display_rating(talk.averageRating) }} {{ talk.averageRating }} / 5 out of {{ talk.onlineReviews|length }} comment(s)</p>
+    {% else %}
+        <p class="text-muted font-italic">Talk did not receive any ratings yet.</p>
+    {% endif %}
 
     <blockquote class="blockquote">
         <p class="mb-0">{{ talk.description }}</p>

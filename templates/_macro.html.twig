@@ -1,0 +1,8 @@
+{% macro display_rating(value) %}
+    <select class="star-rating" data-readonly="true">
+        <option value=""></option>{# Empty option is necessary to display "empty" ratings (0 stars) #}
+        {% for i in 1..5 %}
+            <option value="{{ i }}"{% if i == value%} selected{% endif %}>{{ i }}</option>
+        {% endfor %}
+    </select>
+{% endmacro %}

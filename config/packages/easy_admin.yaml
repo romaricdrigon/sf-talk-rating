@@ -14,7 +14,7 @@ easy_admin:
             class: App\Entity\Event
             label: "SF Events"
             list:
-                fields: ['name', 'startDate', 'endDate', 'status']
+                fields: ['name', 'startDate', 'endDate', 'status', { property: 'averageRating', label: 'Rating' }]
                 sort: 'endDate'
                 actions:
                     - { name: 'admin_event_scrape_init', label: 'Scrape schedule', type: 'route' }
@@ -44,6 +44,9 @@ easy_admin:
                     -
                         property: 'speaker.name'
                         label: 'Speaker'
+                    -
+                        property: 'averageRating'
+                        label: 'Rating'
             form:
                 fields:
                     -

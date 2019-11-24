@@ -56,6 +56,15 @@ $headings-margin-bottom: 1.5rem;
 
 h1, h2, h3, h4 {
     margin-top: 1rem;
+
+    // Star ratings
+    .br-wrapper {
+        display: inline-block;
+    }
+}
+
+p .br-wrapper {
+    display: inline-block;
 }
 
 // App title

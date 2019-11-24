@@ -50,6 +50,11 @@ class Talk
      */
     private $firstTimeSpeaker;
 
+    /**
+     * @var Collection|null cache so Doctrine do not re-send queries to DB
+     */
+    private $cachedOnlineReviews;
+
     public function __construct()
     {
         $this->speaker = new SfConnectUser();
@@ -151,10 +156,14 @@ class Talk
      */
     public function getOnlineReviews(): Collection
     {
+        if ($this->cachedOnlineReviews) {
+            return $this->cachedOnlineReviews;
+        }
+
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('status', TalkReview::STATUS_ONLINE));
 
-        return $this->reviews->matching($criteria);
+        return $this->cachedOnlineReviews = $this->reviews->matching($criteria);
     }
 
     /**
@@ -178,5 +187,20 @@ class Talk
         $myReviews = $this->reviews->matching($criteria);
 
         return 0 === count($myReviews);
+    }
+
+    public function getAverageRating(): ?int
+    {
+        $onlineReviews = $this->getOnlineReviews();
+
+        if (!count($onlineReviews)) {
+            return null;
+        }
+
+        $grades = $onlineReviews->map(function (TalkReview $review) {
+            return $review->getRating();
+        })->toArray();
+
+        return array_sum($grades) / count($grades);
     }
 }

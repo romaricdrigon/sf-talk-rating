@@ -1,14 +1,22 @@
 {% extends 'base.html.twig' %}
 
+{% import '_macro.html.twig' as macro %}
+
 {% block title %}{{ event.name }}{% endblock %}
 
 {% block content %}
-    <h2 class="mb-5">{{ event.name }}</h2>
+    <h2>{{ event.name }}</h2>
+
+    {% if event.averageRating %}
+        <p>{{ macro.display_rating(event.averageRating) }} {{ event.averageRating }} / 5 out of {{ event.onlineReviews|length }} comments (<a href="#comments">view</a>)</p>
+    {% else %}
+        <p class="text-muted font-italic">Event did not receive any ratings yet.</p>
+    {% endif %}
 
     <h3>Talks</h3>
 
     {% for talk in event.talks %}
-        <h4>{{ talk.title }} - <cite>{{ talk.speaker.name }}</cite></h4>
+        <h4>{{ talk.title }} - <cite>{{ talk.speaker.name }}</cite> {{ macro.display_rating(talk.averageRating) }}</h4>
 
         <blockquote class="mb-1">
             <p class="mb-0">
@@ -21,7 +29,7 @@
 
     <hr class="my-4" />
 
-    <h3>Comments on the event</h3>
+    <h3 id="comments">Comments on the event</h3>
 
     {% for review in event.onlineReviews %}
         <blockquote>

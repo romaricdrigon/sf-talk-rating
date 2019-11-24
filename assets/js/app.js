@@ -11,6 +11,9 @@ require('jquery-bar-rating');
 // We don't use any JS from Bootstrap
 
 // Init star rating
-$('.star-rating').barrating({
-    theme: 'css-stars'
+$('.star-rating').each(function () {
+    $(this).barrating({
+        readonly: !!$(this).attr('data-readonly'),
+        theme: 'css-stars'
+    });
 });
