@@ -42,6 +42,10 @@ class ReviewController extends AbstractController
      */
     public function reviewEvent(Event $event, TokenStorageInterface $tokenStorage, Request $request): Response
     {
+        if (!$event->isOnline()) {
+            throw $this->createNotFoundException();
+        }
+
         $user = $tokenStorage->getToken()->getApiUser();
 
         $review = new EventReview($event, SfConnectUser::buildFromApiUser($user));

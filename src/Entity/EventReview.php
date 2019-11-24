@@ -22,7 +22,7 @@ class EventReview
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="review")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="reviews")
      *
      * @Assert\NotNull()
      */

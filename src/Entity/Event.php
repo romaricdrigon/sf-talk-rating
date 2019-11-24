@@ -189,4 +189,9 @@ class Event
 
         return $this;
     }
+
+    public function isOnline(): bool
+    {
+        return self::STATUS_ONLINE === $this->status;
+    }
 }
