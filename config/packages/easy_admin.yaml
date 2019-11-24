@@ -111,17 +111,16 @@ easy_admin:
                     -
                         property: 'author.email'
                         label: 'Author email'
-
-                form:
-                    fields:
-                        -
-                            property: 'status'
-                            type: 'Symfony\Component\Form\Extension\Core\Type\ChoiceType'
-                            type_options:
-                                choices:
-                                    Pending moderation: 'pending_moderation'
-                                    Online: 'online'
-                                    Refused: 'refused'
+            form:
+                fields:
+                    -
+                        property: 'status'
+                        type: 'Symfony\Component\Form\Extension\Core\Type\ChoiceType'
+                        type_options:
+                            choices:
+                                Pending moderation: 'pending_moderation'
+                                Online: 'online'
+                                Refused: 'refused'
 
         TalkReview:
             class: App\Entity\TalkReview
@@ -171,14 +170,13 @@ easy_admin:
                     -
                         property: 'author.email'
                         label: 'Author email'
-
-                form:
-                    fields:
-                        -
-                            property: 'status'
-                            type: 'Symfony\Component\Form\Extension\Core\Type\ChoiceType'
-                            type_options:
-                                choices:
-                                    Pending moderation: 'pending_moderation'
-                                    Online: 'online'
-                                    Refused: 'refused'
+            form:
+                fields:
+                    -
+                        property: 'status'
+                        type: 'Symfony\Component\Form\Extension\Core\Type\ChoiceType'
+                        type_options:
+                            choices:
+                                Pending moderation: 'pending_moderation'
+                                Online: 'online'
+                                Refused: 'refused'
