@@ -40,11 +40,6 @@ class Talk
     private $speaker;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
-     */
-    private $tags = [];
-
-    /**
      * @ORM\OneToMany(targetEntity="TalkReview", mappedBy="talk", orphanRemoval=true)
      */
     private $reviews;
@@ -105,18 +100,6 @@ class Talk
     public function getSpeaker(): SfConnectUser
     {
         return $this->speaker;
-    }
-
-    public function getTags(): ?array
-    {
-        return $this->tags;
-    }
-
-    public function setTags(?array $tags): self
-    {
-        $this->tags = $tags;
-
-        return $this;
     }
 
     /**
