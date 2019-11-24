@@ -31,6 +31,7 @@ easy_admin:
                     - { property: 'startDate', type_options: { widget: 'single_text' } }
                     - { property: 'endDate', type_options: { widget: 'single_text' } }
                     - { property: 'badgeUrl', type: 'Symfony\Component\Form\Extension\Core\Type\UrlType' }
+
         Talk:
             class: App\Entity\Talk
             label: Talks
@@ -59,3 +60,62 @@ easy_admin:
                     -
                         property: 'firstTimeSpeaker'
                         type: 'Symfony\Component\Form\Extension\Core\Type\CheckboxType'
+
+        EventReview:
+            class: App\Entity\EventReview
+            label: "Event reviews"
+            list:
+                actions: ['show', '-add', '-search', '-delete']
+                fields:
+                    -   property: 'event.name'
+                        label: 'Event'
+                    -   property: 'author.name'
+                        label: 'Author'
+                    -
+                        property: 'rating'
+                        label: 'Rating (/5)'
+                    - 'postedAt'
+                    - 'status'
+                sort: 'postedAt'
+            show:
+                actions: ['-delete']
+                fields:
+                    -
+                        property: 'event'
+                        label: 'About event'
+                    - 'status'
+                    -
+                        property: 'rating'
+                        label: 'Rating (/5)'
+                    - 'comment'
+                    -   property: 'contentRating'
+                        label: 'Content rating (/5)'
+                    -   property: 'locationRating'
+                        label: 'Location rating (/5)'
+                    -   property: 'foodRating'
+                        label: 'Food rating (/5)'
+                    -   property: 'socialEventRating'
+                        label: 'Social event rating (/5)'
+                    - 'postedAt'
+                    -
+                        property: 'author.name'
+                        label: 'Author public name'
+                    -   property: 'author.username'
+                        label: 'Author username'
+                    -
+                        property: 'author.uuid'
+                        label: 'Author UUID'
+                    -
+                        property: 'author.email'
+                        label: 'Author email'
+
+                form:
+                    fields:
+                        -
+                            property: 'status'
+                            type: 'Symfony\Component\Form\Extension\Core\Type\ChoiceType'
+                            type_options:
+                                choices:
+                                    Pending moderation: 'pending_moderation'
+                                    Online: 'online'
+                                    Refused: 'refused'
