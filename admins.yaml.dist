@@ -1,0 +1,9 @@
+# File which will be merged with security.yaml
+security:
+    providers:
+        symfony_connect:
+            connect_memory:
+                users:
+                    # List here users which should have ADMIN rights
+                    # Key is SymfonyConnect UUID
+                    37cd387c-d19e-4472-876a-8082ada2ca21: ROLE_ADMIN # Romaric Drigon

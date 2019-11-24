@@ -1,3 +1,5 @@
+# File with admin credentails
+admins.yaml
 
 ###> symfony/framework-bundle ###
 /.env.local
