@@ -22,3 +22,8 @@ admins.yaml
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+# Rules from other tools
+/.php_cs.cache
+/docker-compose.override.yaml
+/.yarn-cache/

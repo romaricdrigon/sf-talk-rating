@@ -20,7 +20,6 @@ class EventRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param array $badgeUrls
      * @return Event[]
      */
     public function findOnlineByBadgeUrl(array $badgeUrls): array

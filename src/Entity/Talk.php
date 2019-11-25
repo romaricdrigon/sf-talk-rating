@@ -173,7 +173,6 @@ class Talk
      * even if his review was not published or declined.
      *
      * @param string $userUuid SymfonyConnect User UUID
-     * @return bool
      */
     public function canBeReviewed(string $userUuid): bool
     {

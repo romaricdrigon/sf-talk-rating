@@ -40,20 +40,20 @@ class EventReviewType extends AbstractType
             ->add('contentRating', RatingType::class, [
                 'help' => 'About the conference schedule, the selection of topics...',
                 'label' => 'Content',
-                'required' => false
+                'required' => false,
             ])
             ->add('locationRating', RatingType::class, [
                 'label' => 'Location',
-                'required' => false
+                'required' => false,
             ])
             ->add('foodRating', RatingType::class, [
                 'label' => 'Food',
-                'required' => false
+                'required' => false,
             ])
             ->add('socialEventRating', RatingType::class, [
                 'help' => 'If you attended the social event on Thursday night',
                 'label' => 'Social event',
-                'required' => false
+                'required' => false,
             ])
         ;
     }

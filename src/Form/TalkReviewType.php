@@ -40,17 +40,17 @@ class TalkReviewType extends AbstractType
             ->add('contentRating', RatingType::class, [
                 'help' => 'About the presentation content (the topic, what you got from the topic and the main point...)',
                 'label' => 'Content',
-                'required' => false
+                'required' => false,
             ])
             ->add('deliveryRating', RatingType::class, [
                 'help' => 'About the way the presentation was given (slides, oral communication, performance of the speaker...)',
                 'label' => 'Delivery',
-                'required' => false
+                'required' => false,
             ])
             ->add('relevanceRating', RatingType::class, [
                 'help' => 'Was the subject and the presentation adapted to the track and audience, and was it important to you',
                 'label' => 'Relevance',
-                'required' => false
+                'required' => false,
             ])
         ;
     }
