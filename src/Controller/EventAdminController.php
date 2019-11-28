@@ -42,6 +42,7 @@ class EventAdminController extends AbstractController
         ;
 
         return $this->render('event_admin/init.html.twig', [
+            'canScrape' => $event->canBeScraped(),
             'form' => $form->createView(),
         ]);
     }
@@ -57,6 +58,10 @@ class EventAdminController extends AbstractController
             || !$url = $request->request->get('form')['url']
         ) {
             throw $this->createNotFoundException('Missing URL');
+        }
+
+        if (!$event->canBeScraped()) {
+            throw $this->createNotFoundException('Even can not be scraped');
         }
 
         $scrapper->import($event, $url);

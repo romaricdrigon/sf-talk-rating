@@ -3,11 +3,15 @@
 {% block content_title 'Scrape Event schedule' %}
 
 {% block main %}
-    {{ form_start(form) }}
-        <p>Are you sure you want to scrape this Event schedule? This will remove all previous Talks associated with this Event.</p>
+    {% if canScrape %}
+        {{ form_start(form) }}
+            <p>Are you sure you want to scrape this Event schedule? This will remove all previous Talks associated with this Event.</p>
 
-        {{ form_row(form.url) }}
+            {{ form_row(form.url) }}
 
-        <button type="submit" class="btn btn-primary mt-3">Scrape!</button>
-    {{ form_end(form) }}
+            <button type="submit" class="btn btn-primary mt-3">Scrape!</button>
+        {{ form_end(form) }}
+    {% else %}
+        <p class="m-3">Event can not be scraped, as it is not a draft anymore.</p>
+    {% endif %}
 {% endblock %}

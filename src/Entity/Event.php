@@ -263,4 +263,9 @@ class Event
 
         return array_sum($grades) / count($grades);
     }
+
+    public function canBeScraped(): bool
+    {
+        return self::STATUS_DRAFT === $this->status;
+    }
 }
