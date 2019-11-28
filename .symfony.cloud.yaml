@@ -2,6 +2,9 @@ name: app
 
 type: php:7.3
 
+relationships:
+    database: "appdatabase:postgresql"
+
 runtime:
     extensions:
         - apcu
@@ -9,6 +12,7 @@ runtime:
         - sodium
         - ctype
         - iconv
+        - pdo_pgsql
 
 build:
     flavor: none
