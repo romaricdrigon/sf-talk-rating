@@ -1,6 +1,6 @@
 # SF Talk Rating
 
-Application integrated with SymfonyConnect, to rate talks given at SymfonyCon / SymfonyLive conferences.
+Application integrated with SymfonyConnect, to give feedback over talks from SymfonyCon / SymfonyLive conferences.
 
 ## Setup
 
