@@ -33,7 +33,7 @@
 
     {% for review in event.onlineReviews %}
         <blockquote>
-            <p class="mb-0">{{ review.comment }}</p>
+            <p class="mb-0">{{ review.comment|nl2br }}</p>
 
             <footer class="blockquote-footer">
                 <cite>{{ review.author.name }}</cite>
