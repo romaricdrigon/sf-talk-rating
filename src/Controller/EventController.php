@@ -9,7 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * @author Romaric Drigon <romaric.drigon@gmail.com>
@@ -22,7 +22,7 @@ class EventController extends AbstractController
      * @Route("/{id<\d+>}", name="event_details", methods={"GET"})
      * @ParamConverter("event")
      */
-    public function details(Event $event, ConnectEventsReader $reader, TokenStorage $tokenStorage): Response
+    public function details(Event $event, ConnectEventsReader $reader, TokenStorageInterface $tokenStorage): Response
     {
         if (!$event->isOnline()) {
             throw $this->createNotFoundException();
@@ -44,7 +44,7 @@ class EventController extends AbstractController
      * @Route("/talk/{id<\d+>}", name="talk_details", methods={"GET"})
      * @ParamConverter("talk")
      */
-    public function talk(Talk $talk, TokenStorage $tokenStorage, ConnectEventsReader $reader): Response
+    public function talk(Talk $talk, TokenStorageInterface $tokenStorage, ConnectEventsReader $reader): Response
     {
         if (!$talk->getEvent()->isOnline()) {
             throw $this->createNotFoundException();
