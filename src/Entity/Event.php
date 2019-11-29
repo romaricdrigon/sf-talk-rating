@@ -268,4 +268,12 @@ class Event
     {
         return self::STATUS_DRAFT === $this->status;
     }
+
+    public function getOrderedTalks(): Collection
+    {
+        $criteria = Criteria::create()
+            ->orderBy(['id' => 'asc']);
+
+        return $this->talks->matching($criteria);
+    }
 }

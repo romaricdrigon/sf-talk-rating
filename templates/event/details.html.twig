@@ -15,7 +15,7 @@
 
     <h3>Talks</h3>
 
-    {% for talk in event.talks %}
+    {% for talk in event.orderedTalks %}
         <h4>{{ talk.title }} - <cite>{{ talk.speaker.name }}</cite> {{ macro.display_rating(talk.averageRating) }}</h4>
 
         <blockquote class="mb-1">
