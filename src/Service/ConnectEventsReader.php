@@ -24,7 +24,7 @@ class ConnectEventsReader
     }
 
     /**
-     * @param User $user User from SfConnect API
+     * @param  User    $user User from SfConnect API
      * @return Event[] online events User attended
      */
     public function getOnlineUserAttended(User $user): array
@@ -44,5 +44,28 @@ class ConnectEventsReader
         }
 
         return $this->eventRepository->findOnlineByBadgeUrl($urls);
+    }
+
+    /**
+     * @param  User $user User from SfConnect API
+     * @return bool
+     */
+    public function checkUserAttendedEvent(User $user, Event $event): bool
+    {
+        /** @var Index $badges */
+        $badges = $user->get('badges');
+
+        if (!count($badges) || !$event->getBadgeUrl()) {
+            return false;
+        }
+
+        $urls = [];
+
+        /** @var Badge $badge */
+        foreach ($badges->get('items') as $badge) {
+            $urls[] = $badge->getSelfUrl();
+        }
+
+        return in_array($event->getBadgeUrl(), $urls);
     }
 }

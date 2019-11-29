@@ -9,6 +9,7 @@ use App\Entity\Talk;
 use App\Entity\TalkReview;
 use App\Form\EventReviewType;
 use App\Form\TalkReviewType;
+use App\Service\ConnectEventsReader;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +28,7 @@ class ReviewController extends AbstractController
      * @Route("/{id}/event", name="review_event", methods={"GET", "POST"})
      * @ParamConverter("event")
      */
-    public function reviewEvent(Event $event, TokenStorageInterface $tokenStorage, Request $request): Response
+    public function reviewEvent(Event $event, TokenStorageInterface $tokenStorage, Request $request, ConnectEventsReader $reader): Response
     {
         if (!$event->isOnline()) {
             throw $this->createNotFoundException();
@@ -37,6 +38,11 @@ class ReviewController extends AbstractController
         }
 
         $user = $tokenStorage->getToken()->getApiUser();
+
+        // Only User who attended can review
+        if (!$reader->checkUserAttendedEvent($user, $event)) {
+            return $this->redirectToRoute('home');
+        }
 
         $review = new EventReview($event, SfConnectUser::buildFromApiUser($user));
         $form = $this->createForm(EventReviewType::class, $review);
@@ -60,7 +66,7 @@ class ReviewController extends AbstractController
      * @Route("/{id}/talk", name="review_talk", methods={"GET", "POST"})
      * @ParamConverter("talk")
      */
-    public function reviewTalk(Talk $talk, TokenStorageInterface $tokenStorage, Request $request): Response
+    public function reviewTalk(Talk $talk, TokenStorageInterface $tokenStorage, Request $request, ConnectEventsReader $reader): Response
     {
         if (!$talk->getEvent()->isOnline()) {
             throw $this->createNotFoundException();
@@ -70,6 +76,11 @@ class ReviewController extends AbstractController
         }
 
         $user = $tokenStorage->getToken()->getApiUser();
+
+        // Only User who attended can review
+        if (!$reader->checkUserAttendedEvent($user, $talk->getEvent())) {
+            return $this->redirectToRoute('home');
+        }
 
         $talkReview = new TalkReview($talk, SfConnectUser::buildFromApiUser($user));
         $form = $this->createForm(TalkReviewType::class, $talkReview);
