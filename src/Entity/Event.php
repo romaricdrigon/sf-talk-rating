@@ -50,24 +50,13 @@ class Event
     private $talks;
 
     /**
-     * @ORM\OneToMany(targetEntity="EventReview", mappedBy="event")
-     */
-    private $reviews;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $status;
 
-    /**
-     * @var Collection|null cache so Doctrine do not re-send queries to DB
-     */
-    private $cachedOnlineReviews;
-
     public function __construct()
     {
         $this->talks = new ArrayCollection();
-        $this->reviews = new ArrayCollection();
         $this->status = self::STATUS_DRAFT;
     }
 
@@ -155,37 +144,6 @@ class Event
         return $this;
     }
 
-    /**
-     * @return Collection|EventReview[]
-     */
-    public function getReviews(): Collection
-    {
-        return $this->reviews;
-    }
-
-    public function addReview(EventReview $review): self
-    {
-        if (!$this->reviews->contains($review)) {
-            $this->reviews[] = $review;
-            $review->setEvent($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReview(EventReview $review): self
-    {
-        if ($this->reviews->contains($review)) {
-            $this->reviews->removeElement($review);
-            // set the owning side to null (unless already changed)
-            if ($review->getEvent() === $this) {
-                $review->setEvent(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getStatus(): ?string
     {
         return $this->status;
@@ -204,29 +162,10 @@ class Event
     }
 
     /**
-     * @return Collection|EventReview[]
+     * Can given User review Talks from Event?
+     * Event should be online, and it should have occurred less than REVIEW_PERIOD ago.
      */
-    public function getOnlineReviews(): Collection
-    {
-        if ($this->cachedOnlineReviews) {
-            return $this->cachedOnlineReviews;
-        }
-
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('status', EventReview::STATUS_ONLINE));
-
-        return $this->cachedOnlineReviews = $this->reviews->matching($criteria);
-    }
-
-    /**
-     * Can given User review event?
-     * Event should have occurred less than REVIEW_PERIOD ago,
-     * and user should not have already reviewed event,
-     * even if his review was not published or declined.
-     *
-     * @param string $userUuid SymfonyConnect User UUID
-     */
-    public function canBeReviewed(string $userUuid): bool
+    public function canBeReviewed(): bool
     {
         if (!$this->isOnline()) {
             return false;
@@ -236,32 +175,12 @@ class Event
             return false;
         }
 
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('author.uuid', $userUuid));
-
-        $myReviews = $this->reviews->matching($criteria);
-
-        return 0 === count($myReviews);
+        return true;
     }
 
     public function getReviewDeadline(): \DateTimeImmutable
     {
         return $this->endDate->modify('+'.self::REVIEW_PERIOD);
-    }
-
-    public function getAverageRating(): ?int
-    {
-        $onlineReviews = $this->getOnlineReviews();
-
-        if (!count($onlineReviews)) {
-            return null;
-        }
-
-        $grades = $onlineReviews->map(function (EventReview $review) {
-            return $review->getRating();
-        })->toArray();
-
-        return array_sum($grades) / count($grades);
     }
 
     public function canBeScraped(): bool

@@ -14,7 +14,7 @@ easy_admin:
             class: App\Entity\Event
             label: "SF Events"
             list:
-                fields: ['name', 'startDate', 'endDate', 'status', { property: 'averageRating', label: 'Rating' }]
+                fields: ['name', 'startDate', 'endDate', 'status']
                 sort: 'endDate'
                 actions:
                     - { name: 'admin_event_scrape_init', label: 'Scrape schedule', type: 'route' }
@@ -63,67 +63,6 @@ easy_admin:
                     -
                         property: 'firstTimeSpeaker'
                         type: 'Symfony\Component\Form\Extension\Core\Type\CheckboxType'
-
-        EventReview:
-            class: App\Entity\EventReview
-            label: "Event reviews"
-            list:
-                actions: ['show', '-new', '-search', '-delete']
-                fields:
-                    -   property: 'event.name'
-                        label: 'Event'
-                    -   property: 'author.name'
-                        label: 'Author'
-                    -
-                        property: 'rating'
-                        label: 'Rating (/5)'
-                    - 'postedAt'
-                    - 'status'
-                sort: 'postedAt'
-            show:
-                actions: ['-delete']
-                fields:
-                    -
-                        property: 'event'
-                        label: 'About event'
-                    - 'status'
-                    -
-                        property: 'rating'
-                        label: 'Rating (/5)'
-                    - 'comment'
-                    -
-                        property: 'prettyHighlights' # Virtual
-                        label: 'Highlights'
-                    -   property: 'contentRating'
-                        label: 'Content rating (/5)'
-                    -   property: 'locationRating'
-                        label: 'Location rating (/5)'
-                    -   property: 'foodRating'
-                        label: 'Food rating (/5)'
-                    -   property: 'socialEventRating'
-                        label: 'Social event rating (/5)'
-                    - 'postedAt'
-                    -
-                        property: 'author.name'
-                        label: 'Author public name'
-                    -   property: 'author.username'
-                        label: 'Author username'
-                    -
-                        property: 'author.uuid'
-                        label: 'Author UUID'
-                    -
-                        property: 'author.email'
-                        label: 'Author email'
-            form:
-                fields:
-                    -
-                        property: 'status'
-                        type: 'Symfony\Component\Form\Extension\Core\Type\ChoiceType'
-                        type_options:
-                            choices:
-                                Pending moderation: 'pending_moderation'
-                                Online: 'online'
-                                Refused: 'refused'
 
         TalkReview:
             class: App\Entity\TalkReview

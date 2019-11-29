@@ -7,7 +7,6 @@ use App\Entity\EventReview;
 use App\Entity\SfConnectUser;
 use App\Entity\Talk;
 use App\Entity\TalkReview;
-use App\Form\EventReviewType;
 use App\Form\TalkReviewType;
 use App\Service\ConnectEventsReader;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -24,44 +23,6 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 class ReviewController extends AbstractController
 {
-    /**
-     * @Route("/{id}/event", name="review_event", methods={"GET", "POST"})
-     * @ParamConverter("event")
-     */
-    public function reviewEvent(Event $event, TokenStorageInterface $tokenStorage, Request $request, ConnectEventsReader $reader): Response
-    {
-        if (!$event->isOnline()) {
-            throw $this->createNotFoundException();
-        }
-        if (!$event->canBeReviewed($tokenStorage->getToken()->getApiUser()->get('uuid'))) {
-            return $this->redirectToRoute('event_details', ['id' => $event->getId()]);
-        }
-
-        $user = $tokenStorage->getToken()->getApiUser();
-
-        // Only User who attended can review
-        if (!$reader->checkUserAttendedEvent($user, $event)) {
-            return $this->redirectToRoute('home');
-        }
-
-        $review = new EventReview($event, SfConnectUser::buildFromApiUser($user));
-        $form = $this->createForm(EventReviewType::class, $review);
-
-        if ($form->handleRequest($request) && $form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->persist($review);
-            $this->getDoctrine()->getManager()->flush();
-
-            $this->addFlash('success', 'Thank you for your comment! It will be published soon.');
-
-            return $this->redirectToRoute('event_details', ['id' => $event->getId()]);
-        }
-
-        return $this->render('review/event.html.twig', [
-            'event' => $event,
-            'form' => $form->createView(),
-        ]);
-    }
-
     /**
      * @Route("/{id}/talk", name="review_talk", methods={"GET", "POST"})
      * @ParamConverter("talk")

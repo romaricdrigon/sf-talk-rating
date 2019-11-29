@@ -7,12 +7,6 @@
 {% block content %}
     <h2>{{ event.name }}</h2>
 
-    {% if event.averageRating %}
-        <p>{{ macro.display_rating(event.averageRating) }} {{ event.averageRating }} / 5 out of {{ event.onlineReviews|length }} comments (<a href="#comments">view</a>)</p>
-    {% else %}
-        <p class="text-muted font-italic">Event did not receive any ratings yet.</p>
-    {% endif %}
-
     <h3>Talks</h3>
 
     {% for talk in event.orderedTalks %}
@@ -26,24 +20,4 @@
 
         <p><a href="{{ path('talk_details', {id: talk.id}) }}">View details</a></p>
     {% endfor %}
-
-    <hr class="my-4" />
-
-    <h3 id="comments">Comments on the event</h3>
-
-    {% for review in event.onlineReviews %}
-        <blockquote>
-            <p class="mb-0">{{ review.comment|nl2br }}</p>
-
-            <footer class="blockquote-footer">
-                <cite>{{ review.author.name }}</cite>
-            </footer>
-        </blockquote>
-    {% else %}
-        <p>No comments were published for this event yet.</p>
-    {% endfor %}
-
-    {% if event.canBeReviewed(app.token.apiUser.get('uuid')) %}
-        <a href="{{ path('review_event', {id: event.id}) }}" class="btn btn-primary">Leave comment over event</a>
-    {% endif %}
 {% endblock %}
