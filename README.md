@@ -7,7 +7,7 @@ Application integrated with SymfonyConnect, to give feedback over talks from Sym
 TL,DR:
 `composer install`
 
-Requires PHP >= 7.2 and MySQL. 
+Requires PHP >= 7.4 and MySQL. 
 Works out-of-the-box with Symfony webserver and Docker (docker-compose config provided).
 
 You need to create an OAuth app in your [SymfonyConnect account](https://connect.symfony.com/account/apps), 
